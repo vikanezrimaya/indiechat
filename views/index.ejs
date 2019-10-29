@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+     #chatform, #messages, #messages li, #chatform input, #chatform button { margin: 0; padding: 0; box-sizing: border-box; }
+     body { font: 13px Noto Sans, Helvetica, Arial; }
+     #chatform { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+     #chatform input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+     #chatform button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+     #messages { list-style-type: none; margin: 0; padding: 0; }
+     #messages li { padding: 1em; }
+     #messages li:nth-child(odd) { background: #eee; }
+     img.author-avatar {
+         float: left;
+         height: 1.5em;
+         margin-right: 0.5em;
+     }
+     #login::backdrop {
+         background: rgba(0,0,0,.25);
+     }
+    </style>
+    <link rel="redirect_uri" href="<%= self %>">
+  </head>
+  <body>
+    <dialog id="login">
+      <form id="loginform">
+        <label for="url">Web Address:</label>
+        <input id="url" type="text" name="me" placeholder="https://yourdomain.com" />
+        <p><button type="submit">Sign In</button></p>
+        <input type="hidden" id="client_id" value="<%- self %>" />
+        <input type="hidden" id="redirect_uri" value="<%- self %>" />
+      </form>
+    </dialog>
+    <ul id="messages"></ul>
+    <form action="" id="chatform">
+      <input id="m" disabled><button>Send</button>
+    </form>
+    <script src="/bundle.js"></script>
+    </script>
+  </body>
+</html>
