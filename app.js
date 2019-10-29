@@ -13,6 +13,23 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer);
 
+var crypto = require('crypto');
+
+function random (howMany, chars) {
+      chars = chars
+        || 'abcdefghijklmnopqrstuwxyz0123456789';
+    var rnd = crypto.randomBytes(howMany)
+    var value = new Array(howMany)
+    var len = len = Math.min(256, chars.length)
+    var d = 256 / len
+
+    for (var i = 0; i < howMany; i++) {
+          value[i] = chars[Math.floor(rnd[i] / d)]
+    };
+
+    return value.join('');
+}
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "views"));
 app.use(express.static('static'));
@@ -47,7 +64,22 @@ async function authenticate(client, data, callback) {
 }
                                                             
 async function postAuthenticate (client, data) {
-    const author = await mfo.getCard(data.me);
+    try {
+        var author = await mfo.getCard(data.me);
+    } catch (e) {
+        console.log(e);
+        var name = me;
+        var author = {"name": name, "img": "https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png", "url": "#"}
+        var oldauthor = author;
+        while (true) {
+            try {
+                author = await mfo.getCard(data.me);
+                io.emit("chataction", {"author": oldauthor, "action": "is known now as " + author.name});
+            } catch (e) {
+                await new Promise(resolve => setTimeout(resolve, 10000));
+            }
+        }
+    }
     console.log(author);
     io.emit("chataction", {"author": author, "action": "connected"});
     client.on('sendmsg', (msg) => {
