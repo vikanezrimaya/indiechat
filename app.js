@@ -28,7 +28,7 @@ app.route('/_findAuth').get(async function(req, res) {
     res.send(stuff.data.authorization_endpoint);
 });
 
-const self = "https://localhost:8000";
+const self = "https://indiewebchat.glitch.me";
 
 async function authenticate(client, data, callback) {
     const code = data.code;

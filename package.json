@@ -6,7 +6,8 @@
   "bin": "app.js",
   "scripts": {
     "start": "node app.js",
-    "build": "browserify static/main.js -o dist/bundle.js -d",
+    "build": "mkdir -p dist && browserify static/main.js -o dist/bundle.js -d",
+    "prestart": "mkdir -p dist && browserify static/main.js -o dist/bundle.js -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
