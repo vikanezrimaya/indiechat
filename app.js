@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+//const cluster = require('cluster');
+//const numCPUs = require('os').cpus().length;
 const express = require('express');
 const socketio_auth = require('socketio-auth');
 const axios = require('axios');
@@ -13,22 +13,7 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer);
 
-var crypto = require('crypto');
-
-function random (howMany, chars) {
-      chars = chars
-        || 'abcdefghijklmnopqrstuwxyz0123456789';
-    var rnd = crypto.randomBytes(howMany)
-    var value = new Array(howMany)
-    var len = len = Math.min(256, chars.length)
-    var d = 256 / len
-
-    for (var i = 0; i < howMany; i++) {
-          value[i] = chars[Math.floor(rnd[i] / d)]
-    };
-
-    return value.join('');
-}
+//var crypto = require('crypto');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "views"));
@@ -62,8 +47,8 @@ async function authenticate(client, data, callback) {
         callback(e);
     }
 }
-                                                            
-async function postAuthenticate (client, data) {
+
+async function postAuthenticate(client, data) {
     try {
         var author = await mfo.getCard(data.me);
     } catch (e) {
